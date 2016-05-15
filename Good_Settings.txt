@@ -1,0 +1,9 @@
+1. Load the pg_stat_statements module.
+  a. Edit postgresql.conf and add pg_stat_statements
+     to shared_preload_libraries:
+     shared_preload_libraries = 'pg_stat_statements' # (change requires restart).
+  b. Run on required DB
+     CREATE EXTENSION pg_stat_statements;
+
+2. 
+
