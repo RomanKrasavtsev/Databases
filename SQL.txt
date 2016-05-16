@@ -1,8 +1,15 @@
+-- ### FILES ###
+
 -- Show path to config
 SHOW config_file;
 
 -- Show path to hba 
 SHOW hba_file;
+
+-- Read file
+select * from regexp_split_to_table(pg_read_file('filename'))
+
+-- ### MONITORING ###
 
 -- Show top 5 query from execution statistics
 -- Do not forget to add pg_stat_statements
@@ -32,9 +39,6 @@ from pg_stat_activity
 where current_query <> '<IDLE>'
 order by 1 desc;
 
--- Show table size
-select pg_size_pretty(pg_total_relation_size('TABLE_NAME'));
-
 -- It is very useful to use pg_stat_kcache
 -- See more https://github.com/dalibo/pg_stat_kcache
 
@@ -49,10 +53,50 @@ WHERE datname != 'postgres' AND datname NOT LIKE 'template%'
 ORDER BY total_time DESC
 LIMIT 10;
 
-select query pg_stat_statments where queryid in (1, 2, 3)
+select query pg_stat_statments where queryid in (1, 2, 3);
 
--- Read file
-select * from regexp_split_to_table(pg_read_file('filename'))
+-- Show table statistic
+select * from pg_stat_all_tables
+where relid='TABLENAME'::regclass;
+
+-- Show function statistics
+select * from pg_stat_user_functions;
+
+-- Show statements in log
+alter system set "log_line_prefix" = "!!! pid=%p";
+alter system set "log_duration" = "on";
+alter system set "log_statement" = "on";
+
+-- ### RELOAD CONFIGURATION FILES ###
 
 -- Reload configuration files
 select pg_reload_conf()
+
+-- ### BLOCKED PROCESSES ###
+
+-- Show blocked processes
+select * from pg_stat_activity where waiting;
+
+-- Show ungranted locks
+select locktype, transactionid, pid, mode, granted
+from pg_locks where pid = PID and not granted;
+
+-- Show blocking process
+select locktype, transactionid, pid, mode, granted
+from pg_locks where transactionid = TRANSACTIONID and granted;
+
+-- ### KILL ###
+
+-- Terminate process
+select pg_terminate_backend(PID);
+
+-- Cancel query
+select pg_cancel_backend(PID);
+
+-- ### SIZE ###
+
+-- Show table size
+select pg_size_pretty(pg_total_relation_size('TABLE_NAME'));
+
+-- Show DB size
+
