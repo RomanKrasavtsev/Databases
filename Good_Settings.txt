@@ -2,8 +2,33 @@
   a. Edit postgresql.conf and add pg_stat_statements
      to shared_preload_libraries:
      shared_preload_libraries = 'pg_stat_statements' # (change requires restart).
-  b. Run on required DB
+  b. pg_ctl reload
+  c. Run on required DB
      CREATE EXTENSION pg_stat_statements;
 
-2. 
+2. Switch on logging collector.
+  a. alter system set "logging_collector" to "on"
+  b. pg_ctl reload
+  c. Check: select setting from pg_settings where name = 'logging_collector'
 
+3. Change log to csv.
+  a. alter system set "log_destination" to "csvlog"
+  b. select pg_reload_conf()
+  c. Check: select setting from pg_settings where name = 'log_destination'
+
+4. Switch on log truncate on rotation.
+  a. alter system set "log_truncate_on_rotation" to "on"
+  b. select pg_reload_conf()
+  c. Check: select setting from pg_settings where name = 'log_truncate_on_rotation'
+
+5. Change filename for logs.
+  a. alter system set "log_filename" to "postgresql-%a.log"
+  b. select pg_reload_conf()
+  c. Check: select setting from pg_settings where name = 'log_filename'
+
+6. Set 7 logs for a week.
+  a. alter system set "log_rotation_age" to "1440"
+  b. select pg_reload_conf()
+  c. Check: select setting from pg_settings where name = 'log_rotation_age'
+
+7. 
