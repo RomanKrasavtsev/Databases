@@ -1,0 +1,18 @@
+https://www.datadoghq.com/wp-content/uploads/2013/09/Understanding-the-Top-5-Redis-Performance-Metrics.pdf
+
+# Number of clients connected to Redis
+
+# Average time for the Redis server to respond to a request
+  
+# keyspace_hits / (keyspace_hits + keyspace_misses)
+hit_rate
+
+# Amount of memory (in bytes) used by Redis 
+
+# Total number of commands processed per second
+get_instantaneous_ops_per_sec
+
+# Unix timestamp of last save to disk 
+# rdb_last_save_time is < 3600 seconds (or your acceptable timeframe)
+
+# Number of connections rejected due to hitting maxclient limit
