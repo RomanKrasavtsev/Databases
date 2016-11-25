@@ -31,3 +31,6 @@ SELECT
   round(((data_length + index_length) / 1024 / 1024), 2) 'size, MB' 
 FROM information_schema.TABLES 
 ORDER BY 3 DESC;
+
+# Number of connections
+SHOW status WHERE variable_name = "Threads_connected";
