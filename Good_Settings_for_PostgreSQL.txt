@@ -30,5 +30,3 @@
   a. alter system set "log_rotation_age" to "1440"
   b. select pg_reload_conf()
   c. Check: select setting from pg_settings where name = 'log_rotation_age'
-
-7. 
