@@ -34,3 +34,6 @@ ORDER BY 3 DESC;
 
 # Number of connections
 SHOW status WHERE variable_name = "Threads_connected";
+
+# change password
+ALTER USER username IDENTIFIED BY 'auth_string';
