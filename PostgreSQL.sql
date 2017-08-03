@@ -100,3 +100,6 @@ select pg_size_pretty(pg_total_relation_size('TABLE_NAME'));
 
 -- Show DB size
 
+-- Show DB creation time
+SELECT (pg_stat_file('base/'||oid ||'/PG_VERSION')).modification, datname FROM pg_database;
+
